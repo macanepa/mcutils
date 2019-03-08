@@ -14,7 +14,7 @@ Its main functions are:
   - Title, Subtitle, Text
   - Options (list the different alternatives to choose from)
     - Submenus (Menu instance)
-    - Functions (Menu_Func instance)
+    - Functions (Menu_Func instance [must pass the arguments as *args])
   - Each menu is an instance from the Menu Class
     - Allows to return to previous menus (parent menu)
   - Controlled data input

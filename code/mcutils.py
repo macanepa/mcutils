@@ -8,7 +8,7 @@ def register_error(error_string, print_error = True):
     if(print_error == True):
         print "Error Encountered <%s>" % error_string
 
-def clear(n=1):
+def clear(n=3):
     print "\n"*n
 
 class Credits:
@@ -21,6 +21,7 @@ class Credits:
 
 
     def print_credits(self):
+        clear(100)
         print ">> Credits <<"
         if(self.company_name != ""):
             print "Company: %s"%self.company_name
@@ -150,9 +151,9 @@ class Menu:
         #     del(self.previous_menu)
         clear()
         if(self.title != None):
-            print self.title
+            print "/// %s " % self.title
         if (self.subtitle != None):
-            print self.subtitle
+            print "///%s" % self.subtitle
         print
         if (self.text != None):
             print self.text

@@ -8,9 +8,6 @@ def print_data(*args):
     print "Excecuting Function:"
     print "print_data"
     print args
-    a = raw_input("Hello: ")
-    print a
-
 
 func1 = Menu_Func(print_data,"Function 1",*(1,2,3,9,8,7))
 m1_exit = Menu_Func(exit_application,"Exit","Exiting Application!")

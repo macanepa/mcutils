@@ -3,7 +3,6 @@ def exit_application(text = None):
         print text
     exit(0)
 
-
 def register_error(error_string, print_error = True):
     if(print_error == True):
         print "Error Encountered <%s>" % error_string
@@ -38,7 +37,6 @@ class Credits:
             print "GitHub: %s"%self.github_account
         raw_input("\nPress Enter to Continue...")
 
-
 class Menu_Func:
     def __init__(self,function,title=None,*args):
         self.function = function
@@ -68,6 +66,48 @@ class Menu_Func:
 
 
 
+def get_input(format=">> ",can_exit=True,exit_input="exit",valid_options=[], return_type = basestring, check=False):
+
+
+    if(check):
+        while True:
+            user_input = raw_input(format)
+            if(valid_options != []):
+                if(return_type == int):
+                    try:
+                        user_input = int(user_input)
+                        if(user_input in valid_options):
+                            break
+                        else:
+                            register_error("Not valid Entry")
+                            continue
+                    except:
+                        register_error("Not Valid Entry")
+                        continue
+                elif(return_type == basestring):
+                    if(user_input in valid_options):
+                        break
+                    else:
+                        register_error("Not Valid Entry")
+                        continue
+                else:
+                    register_error("Not valid return_type")
+                    continue
+            else:
+                break
+
+
+    else:
+        user_input = raw_input(format)
+
+        if(user_input == exit_input):
+            if (can_exit):
+                exit_application()
+            else:
+                register_error("Can't exit application now")
+
+    return user_input
+
 class Menu:
 
     def __init__(self,title = None, subtitle = None,text = None,options=[],return_type=int,parent=None,input_each = False,previous_menu=None,back=True):
@@ -87,16 +127,7 @@ class Menu:
     def set_previous_menu(self,previous_menu):
         self.previous_menu = previous_menu
 
-    def get_input(self,format=">> ",can_exit=True,exit_input="exit"):
-        user_input = raw_input(format)
 
-        if(user_input == exit_input):
-            if (can_exit):
-                exit_application()
-            else:
-                register_error("Can exit application now")
-
-        return user_input
 
     def get_selection(self, exit_input="exit"):
 
@@ -110,7 +141,7 @@ class Menu:
 
             while True:
 
-                selection = self.get_input()
+                selection = get_input()
 
                 if(selection.__str__().isdigit()):
                     if(int(selection) in range(start_index,(self.options.__len__())+1)):
@@ -136,12 +167,12 @@ class Menu:
         elif(self.input_each):
             selection = []
             for option in self.options:
-                parameter_value = self.get_input(str(option)+" >> ")
+                parameter_value = get_input(str(option)+" >> ")
                 selection.append(parameter_value)
 
         # if there aren't any option it means user must input a string
         else:
-            selection = self.get_input()
+            selection = get_input()
 
         return selection
 

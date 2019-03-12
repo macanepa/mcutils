@@ -19,4 +19,4 @@ sub_menu_lvl1 = Menu(title="Submenu Lvl 1",text="Choose one number",options=[1,2
 main_menu = Menu(title = "Main Menu",text="Select an Operation", options = [sqrt_menu_func,sub_menu_lvl1,"Option 3"],back=False)
 
 while True:
-    main_menu.print_menu()
+    main_menu.show()

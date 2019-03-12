@@ -4,18 +4,30 @@ credits = Credits(authors = ['Matias Canepa Gonzalez'], team_name= 'Ditto Team',
                   email_address='macanepa@miuandes.cl',company_name='AChiliMountain')
 
 
-def print_data(*args):
-    print "Excecuting Function:"
-    print "print_data"
-    print args
+def start_main(file_manager,path):
+    file_manager.open_file(path)
 
-func1 = Menu_Func(print_data,"Function 1",*(1,2,3,9,8,7))
-m1_exit = Menu_Func(exit_application,"Exit","Exiting Application!")
-m1_credits = Menu_Func(credits.print_credits,title="Credits")
 
-menu3 = Menu("MENU 3","subtitle ijiofjeoi","select option wiwiiii",[func1,"WIWI","WAWA"],return_type=int)
-menu2 = Menu("MENU 2", "subtitle", "select option", [menu3], return_type=int)
-menu1 = Menu("MAIN MENU",options=[func1,menu2,m1_credits,m1_exit],return_type=int,back=False)
+
+file_manager = Directory_Manager(["/home/matias/Documents/mcutils/data/good bye.txt","/home/matias/Documents/mcutils/code"])
+file_manager.filter_format(['txt','py'])
+file_manager.print_info()
+
+
+mmf_credits = Menu_Func(title="Credits",function=credits.print_credits)
+mmf_exit = Menu_Func("Exit App",exit_application, *["Exiting Application"])
+mmf_main = Menu_Func("Start main.py",start_main,*[file_manager,"/home/matias/Documents/mcutils/code/main.py"])
+
+
+login_menu = Menu(title="Login",input_each=True,options=["User Name","Password"])
+main_menu = Menu(title="Main Menu",options=[login_menu, mmf_credits, mmf_main, mmf_exit],back=False)
+
+
+
+
+for dir in file_manager.get_dirs():
+    print dir
+
 
 while True:
-    op = menu1.print_menu()
+    main_menu.show()

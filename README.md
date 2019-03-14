@@ -6,7 +6,7 @@ Developed by Matías Cánepa González
 GitHub: http://github.com/macanepa
 
 # Documentation
-mcutils purpose is to ease the development cycle when creating console based programs with python.
+mcutils's purpose is to ease the development cycle when creating console based programs with python.
 
 ## Current features
 

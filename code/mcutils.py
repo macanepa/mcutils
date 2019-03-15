@@ -1,20 +1,33 @@
 def exit_application(text = None):
     if(text != None):
-        print text
+        print (text)
     exit(0)
 
 def register_error(error_string, print_error = True):
     if(print_error == True):
-        print "Error Encountered <%s>" % error_string
+        print ("Error Encountered <%s>" % error_string)
+
+def input_version(format = ">> "):
+    import sys
+    # print (sys.version_info)[0]
+    if(sys.version_info[0] == 2):
+        return_value = raw_input(format)
+    elif(sys.version_info[0] == 3):
+        return_value = input(format)
+    return return_value
 
 def get_input(format=">> ",text = None, can_exit=True,exit_input="exit",valid_options=[], return_type = basestring, check=False):
 
+
+
+
+
     if(text!=None):
-        print text
+        print (text)
 
     if(check):
         while True:
-            user_input = raw_input(format)
+            user_input = input_version(format)
             if(valid_options != []):
                 if(return_type == int):
                     try:
@@ -41,7 +54,7 @@ def get_input(format=">> ",text = None, can_exit=True,exit_input="exit",valid_op
 
 
     else:
-        user_input = raw_input(format)
+        user_input = input_version(format)
 
         if(user_input == exit_input):
             if (can_exit):
@@ -52,7 +65,7 @@ def get_input(format=">> ",text = None, can_exit=True,exit_input="exit",valid_op
     return user_input
 
 def clear(n=3):
-    print "\n"*n
+    print ("\n"*n)
 
 class Credits:
     def __init__(self,authors = [], company_name = "",team_name = "", github_account="", email_address=""):
@@ -67,18 +80,18 @@ class Credits:
         clear(100)
         print ">> Credits <<"
         if(self.company_name != ""):
-            print "Company: %s"%self.company_name
+            print ("Company: %s"%self.company_name)
         if(self.team_name != ""):
-            print "Developed by %s"%self.team_name
+            print ("Developed by %s"%self.team_name)
         if(len(self.authors)!=0):
-            print "\nAuthors:"
+            print ("\nAuthors:")
             for author in self.authors:
-                print "\t-%s"%author
+                print ("\t-%s" % author)
         print
         if(self.email_address != ""):
-            print "Email: %s"%self.email_address
+            print ("Email: %s" % self.email_address)
         if(self.github_account != ""):
-            print "GitHub: %s"%self.github_account
+            print ("GitHub: %s" % self.github_account)
         raw_input("\nPress Enter to Continue...")
 
 class Menu_Func:
@@ -88,21 +101,21 @@ class Menu_Func:
         self.args = args
 
     def print_function_info(self):
-        print "Function: %s" % self.function
+        print ("Function: %s" % self.function)
 
         for parameter in self.args:
-            print parameter
+            print (parameter)
 
     def get_unassigned_params(self):
         unassigned_parameters_list = []
         for parameter in self.function.func_code.co_varnames:
             if not parameter in (self.args):
-                print parameter
+                print (parameter)
                 unassigned_parameters_list.append(parameter)
         return unassigned_parameters_list
 
     def get_args(self):
-        print self.args
+        print (self.args)
         return self.args
 
     def call_function(self):
@@ -185,12 +198,12 @@ class Menu:
         #     del(self.previous_menu)
         clear()
         if(self.title != None):
-            print "/// %s " % self.title
+            print ("/// %s " % self.title)
         if (self.subtitle != None):
-            print "///%s" % self.subtitle
+            print ("///%s" % self.subtitle)
         print
         if (self.text != None):
-            print self.text
+            print (self.text)
 
         # print "Parent:",self.parent
 
@@ -198,13 +211,13 @@ class Menu:
         if(self.options.__len__()!=0 and (not self.input_each)):
             for option_index in range(len(self.options)):
                 if isinstance(self.options[option_index], Menu_Func):
-                    print "%s. %s" % (str(option_index + 1), self.options[option_index].title)
+                    print ("%s. %s" % (str(option_index + 1), self.options[option_index].title))
                 elif isinstance(self.options[option_index],Menu):
-                    print "%s. %s"%(str(option_index+1),self.options[option_index].title)
+                    print ("%s. %s"%(str(option_index+1),self.options[option_index].title))
                 else:
-                    print "%s. %s"%(str(option_index+1),self.options[option_index])
+                    print ("%s. %s"%(str(option_index+1),self.options[option_index]))
             if (self.back):
-                print "0. Back"
+                print ("0. Back")
 
         selected_option = self.get_selection()
         return selected_option
@@ -219,10 +232,10 @@ class Directory_Manager:
             self.extension = extension
             self.size = size
         def print_info(self):
-            print "Name:",self.name
-            print "Path:",self.path
-            print "Extension:",self.extension
-            print "Size:",self.size
+            print ("Name:",self.name)
+            print ("Path:",self.path)
+            print ("Extension:",self.extension)
+            print ("Size:",self.size)
             print
 
     def __init__(self,directories = []):
@@ -277,7 +290,7 @@ class Directory_Manager:
     def open_file(self, path):
         import platform,os,subprocess
         current_os = platform.system()
-        print "current os %s" % current_os
+        print ("current os %s" % current_os)
 
         if(os.path.isfile(path)):
 

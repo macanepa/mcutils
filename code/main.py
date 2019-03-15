@@ -26,7 +26,7 @@ main_menu = Menu(title="Main Menu",options=[login_menu, mmf_credits, mmf_main, m
 
 
 for dir in file_manager.get_dirs():
-    print dir
+    print (dir)
 
 
 while True:

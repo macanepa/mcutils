@@ -26,7 +26,31 @@ mcutils open-source
 Features
 --------
 
-* TODO
+* Create easy and simple Menu cycles.
+    * Title, Subtitle, Text
+    * Options (list the different alternatives to choose from)
+        * Submenus (Menu instance)
+        * Functions (Menu_Func instance [must pass the arguments as \*args])
+    * Each menu is an instance from the Menu Class
+    * Allows to return to previous menus (parent menu)
+    * Controlled user input
+* Error Handler
+* Directory Manager
+    * List files in directory
+    * Filter through different file extensions
+    * Open files with default application (cross-platform support)
+    * Select Files
+    * Delete Files
+* Basic Logger
+
+
+Future Features
+---------------
+* Logger System
+
+Supported Versions
+------------------
+* Python 3.x
 
 Credits
 -------

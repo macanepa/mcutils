@@ -28,6 +28,8 @@ def register_error(error_string, print_error=False):
         print(message)
     Log.log(message)
 
+# TODO: Allow get input from external code
+# TODO: Add complex build-in validations / add external function validation
 def get_input(format=">> ", text=None, can_exit=True, exit_input="exit", valid_options=[], return_type=str, check=False):
 
     if (text != None):
@@ -189,10 +191,15 @@ class Menu:
 
         elif (self.input_each):
             selection = []
-            for option in self.options:
-                parameter_value = get_input(str(option) + " >> ")
-                selection.append(parameter_value)
-
+            # TODO: Remove list type compatibiity and adopt dictionary
+            if(isinstance(self.options,list)):
+                for option in self.options:
+                    parameter_value = get_input(str(option) + " >> ")
+                    selection.append(parameter_value)
+            elif(isinstance(self.options,dict)):
+                for key in self.options:
+                    parameter_value = get_input(str(key) + " >> ")
+                    selection.append(parameter_value)
         # if there aren't any option it means user must input a string
         else:
             selection = get_input()
@@ -267,7 +274,7 @@ class Directory_Manager:
 
             file_dir = directory
             if (file_name != None):
-                file_dir += "\\" + file_name
+                file_dir = os.path.join(directory,file_name)
             else:
                 file_name = file_dir.rsplit('\\', 1)[-1]
 
@@ -328,14 +335,16 @@ class Directory_Manager:
 
     def add_file_to_selection(self,*args):
         Log.log("Adding Files <{}> to Selection".format(args))
+        files = None
         for arg in args:
             if isinstance(arg,self.File):
-                file = [arg]
+                files = [arg]
             elif isinstance(arg,list):
-                file = list(arg)
+                files = list(arg)
             elif isinstance(arg,str):
                 files = list(filter(lambda x: arg in x.name, self.files))
-            self.selected_files += files
+            if(files != None):
+                self.selected_files += files
         return self.selected_files
     def clear_file_selection(self):
         self.selected_files.clear()

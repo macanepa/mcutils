@@ -28,39 +28,33 @@ def register_error(error_string, print_error=False):
         print(message)
     Log.log(message)
 
-# TODO: Allow get input from external code
-# TODO: Add complex build-in validations
-# TODO: Add external function validation
+# TODO: Implement parameters support for validation_function
 def get_input(format=">> ", text=None, can_exit=True, exit_input="exit", valid_options=[], return_type=str, validation_function=None):
-
-    user_input = None
 
     if (text != None):
         print(text)
-    if(valid_options!=None or validation_function!=None):
-        while True:
-            user_input = input(format)
+    while True:
+        user_input = input(format)
 
-            # Emergency exit system
-            if (user_input == exit_input):
-                if (can_exit):
-                    exit_application()
-                else:
-                    register_error("Can't exit application now")
-
-            # This is the build-in validations system
-            if(validation_function != None):
-                validation = validation_function.__call__(user_input)
-
-            # This is the external validation system
+        # Emergency exit system
+        if (user_input == exit_input):
+            if (can_exit):
+                exit_application()
             else:
-                from input_validation import input_validation
-                validation = input_validation(user_input, return_type, valid_options)
+                register_error("Can't exit application now")
 
-            if (validation):
-                break
+        # This is the build-in validations system
+        if(validation_function != None):
+            validation = validation_function.__call__(user_input)
 
-            register_error("Not Valid Entry")
+        # This is the external validation system
+        else:
+            from input_validation import input_validation
+            validation = input_validation(user_input=user_input, return_type=return_type, valid_options=valid_options)
+        if (validation):
+            break
+
+        register_error("Not Valid Entry")
 
 
 
@@ -158,40 +152,38 @@ class Menu:
 
             while True:
 
-                selection = get_input()
+                selection = get_input(return_type=int,)
 
-                if (selection.__str__().isdigit()):
-                    if (int(selection) in range(start_index, (self.options.__len__()) + 1)):
-                        if (int(selection) != 0):
-                            if (isinstance(self.options[int(selection) - 1], Menu_Function)):
-                                function = self.options[int(selection) - 1]
-                                function.call_function()
-                            elif (isinstance(self.options[int(selection) - 1], Menu)):
-                                sub_menu = self.options[int(selection) - 1]
-                                sub_menu.set_parent(self)
-                                sub_menu.show()
-                        else:
-                            if (self.parent != None):
-                                self.parent.set_previous_menu(self)
-                                self.parent.show()
-                        break
+                if (int(selection) in range(start_index, (self.options.__len__()) + 1)):
+                    if (int(selection) != 0):
+                        if (isinstance(self.options[int(selection) - 1], Menu_Function)):
+                            function = self.options[int(selection) - 1]
+                            function.call_function()
+                        elif (isinstance(self.options[int(selection) - 1], Menu)):
+                            sub_menu = self.options[int(selection) - 1]
+                            sub_menu.set_parent(self)
+                            sub_menu.show()
                     else:
-                        register_error("Index not in range")
-
+                        if (self.parent != None):
+                            self.parent.set_previous_menu(self)
+                            self.parent.show()
+                    break
                 else:
-                    register_error("Input entered must be int")
+                    register_error("Index not in range")
 
         elif (self.input_each):
-            selection = []
-            # TODO: Remove list type compatibiity and adopt dictionary
+            selection = {}
             if(isinstance(self.options,list)):
                 for option in self.options:
                     parameter_value = get_input(str(option) + " >> ")
-                    selection.append(parameter_value)
+                    selection[option] = parameter_value
             elif(isinstance(self.options,dict)):
                 for key in self.options:
-                    parameter_value = get_input(str(key) + " >> ")
-                    selection.append(parameter_value)
+                    parameter_value = get_input(format = key + " >> ",
+                                                return_type=self.options[key][0],
+                                                valid_options=self.options[key][1:])
+                    selection[key] = parameter_value
+
         # if there aren't any option it means user must input a string
         else:
             selection = get_input()

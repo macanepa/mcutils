@@ -29,48 +29,40 @@ def register_error(error_string, print_error=False):
     Log.log(message)
 
 # TODO: Allow get input from external code
-# TODO: Add complex build-in validations / add external function validation
-def get_input(format=">> ", text=None, can_exit=True, exit_input="exit", valid_options=[], return_type=str, check=False):
+# TODO: Add complex build-in validations
+# TODO: Add external function validation
+def get_input(format=">> ", text=None, can_exit=True, exit_input="exit", valid_options=[], return_type=str, validation_function=None):
+
+    user_input = None
 
     if (text != None):
         print(text)
-
-    if (check):
+    if(valid_options!=None or validation_function!=None):
         while True:
             user_input = input(format)
-            if (valid_options != []):
-                if (return_type == int):
-                    try:
-                        user_input = int(user_input)
-                        if (user_input in valid_options):
-                            break
-                        else:
-                            register_error("Not valid Entry")
-                            continue
-                    except:
-                        register_error("Not Valid Entry")
-                        continue
-                elif (return_type == str):
-                    if (user_input in valid_options):
-                        break
-                    else:
-                        register_error("Not Valid Entry")
-                        continue
+
+            # Emergency exit system
+            if (user_input == exit_input):
+                if (can_exit):
+                    exit_application()
                 else:
-                    register_error("Not valid return_type")
-                    continue
+                    register_error("Can't exit application now")
+
+            # This is the build-in validations system
+            if(validation_function != None):
+                validation = validation_function.__call__(user_input)
+
+            # This is the external validation system
             else:
+                from input_validation import input_validation
+                validation = input_validation(user_input, return_type, valid_options)
+
+            if (validation):
                 break
 
+            register_error("Not Valid Entry")
 
-    else:
-        user_input = input(format)
 
-        if (user_input == exit_input):
-            if (can_exit):
-                exit_application()
-            else:
-                register_error("Can't exit application now")
 
     return user_input
 

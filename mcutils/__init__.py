@@ -4,14 +4,15 @@
 
 __author__ = """Matias Canepa"""
 __email__ = 'macanepa@miuandes.cl'
-__version__ = '0.0.2'
+__version__ = '0.0.5'
 
 
 # -*- coding: utf-8 -*-
 
 """Main module."""
 
-from logger import *
+from .logger import Log_Manager
+from .input_validation import input_validation
 
 Log = Log_Manager(developer_mode=True)
 
@@ -21,12 +22,12 @@ def exit_application(text=None):
     Log.log("Exiting Application Code:0")
     exit(0)
 
-
 def register_error(error_string, print_error=False):
     message = "Error Encountered <{}>".format(error_string)
     if (print_error == True):
         print(message)
     Log.log(message)
+
 
 # TODO: Implement parameters support for validation_function
 def get_input(format=">> ", text=None, can_exit=True, exit_input="exit", valid_options=[], return_type=str, validation_function=None):
@@ -49,7 +50,7 @@ def get_input(format=">> ", text=None, can_exit=True, exit_input="exit", valid_o
 
         # This is the external validation system
         else:
-            from input_validation import input_validation
+            # from input_validation import input_validation
             validation = input_validation(user_input=user_input, return_type=return_type, valid_options=valid_options)
         if (validation):
             break

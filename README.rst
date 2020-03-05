@@ -30,7 +30,8 @@ Features
     * Title, Subtitle, Text
     * Options (list the different alternatives to choose from)
         * Submenus (Menu instance)
-        * Functions (Menu_Func instance [must pass the arguments as \*args])
+        * Functions (Menu_Function instance [must pass the arguments as \*args])
+                * Retrieve Menu_Function returned value
     * Each menu is an instance from the Menu Class
     * Allows to return to previous menus (parent menu)
     * Controlled user input

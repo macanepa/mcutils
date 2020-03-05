@@ -1,13 +1,9 @@
-# -*- coding: utf-8 -*-
-
 """Top-level package for mcutils."""
 
-__author__ = """Matias Canepa"""
+__author__ = """Matias Canepa Gonzalez"""
 __email__ = 'macanepa@miuandes.cl'
-__version__ = '0.0.5'
+__version__ = '0.0.6'
 
-
-# -*- coding: utf-8 -*-
 
 """Main module."""
 
@@ -65,7 +61,6 @@ def get_input(format=">> ", text=None, can_exit=True, exit_input="exit", valid_o
 def clear(n=3):
     print("\n" * n)
 
-
 class Credits:
     def __init__(self, authors=[], company_name="", team_name="", github_account="", email_address=""):
         self.authors = authors
@@ -92,39 +87,38 @@ class Credits:
             print("GitHub: {}".format(self.github_account))
         input("\nPress Enter to Continue...")
 
-
 class Menu_Function:
-    def __init__(self, title=None, function=None, *args):
+    def __init__(self,title=None,function=None,*args):
         self.function = function
         self.title = title
         self.args = args
+        self.returned_value = None
 
     def print_function_info(self):
-        print("Function: {}".format(self.function))
+        print ("Function: %s" % self.function)
 
         for parameter in self.args:
-            print(parameter)
+            print (parameter)
 
     def get_unassigned_params(self):
         unassigned_parameters_list = []
         for parameter in self.function.func_code.co_varnames:
             if not parameter in (self.args):
-                print(parameter)
+                print (parameter)
                 unassigned_parameters_list.append(parameter)
         return unassigned_parameters_list
 
     def get_args(self):
-        print(self.args)
+        print (self.args)
         return self.args
 
     def call_function(self):
-        self.function(*self.args)
-
+        self.returned_value = self.function(*self.args)
+        return self.returned_value
 
 class Menu:
 
-    def __init__(self, title=None, subtitle=None, text=None, options=[], return_type=int, parent=None, input_each=False,
-                 previous_menu=None, back=True):
+    def __init__(self,title = None, subtitle = None,text = None,options=[],return_type=int,parent=None,input_each = False,previous_menu=None,back=True):
         self.title = title
         self.subtitle = subtitle
         self.text = text
@@ -135,55 +129,56 @@ class Menu:
         self.previous_menu = previous_menu
         self.back = back
         self.returned_value = None
+        self.function_returned_value = None
 
-    def set_parent(self, parent):
+    def set_parent(self,parent):
         self.parent = parent
 
-    def set_previous_menu(self, previous_menu):
+    def set_previous_menu(self,previous_menu):
         self.previous_menu = previous_menu
+
+
 
     def get_selection(self, exit_input="exit"):
 
         start_index = 1
-        if (self.back):
-            start_index = 0
+        if(self.back):
+            start_index=0
+
 
         # if there exist options it means user have to select one of them
-        if ((self.options.__len__() > 0) and (not self.input_each)):
+        if((self.options.__len__()!=0) and (not self.input_each)):
 
             while True:
 
-                selection = get_input(return_type=int,)
+                selection = get_input()
 
-                if (int(selection) in range(start_index, (self.options.__len__()) + 1)):
-                    if (int(selection) != 0):
-                        if (isinstance(self.options[int(selection) - 1], Menu_Function)):
-                            function = self.options[int(selection) - 1]
-                            function.call_function()
-                        elif (isinstance(self.options[int(selection) - 1], Menu)):
-                            sub_menu = self.options[int(selection) - 1]
-                            sub_menu.set_parent(self)
-                            sub_menu.show()
+                if(selection.__str__().isdigit()):
+                    if(int(selection) in range(start_index,(self.options.__len__())+1)):
+                        if(int(selection) != 0):
+                            if (isinstance(self.options[int(selection) - 1], Menu_Function)):
+                                function = self.options[int(selection) - 1]
+                                self.function_returned_value = function.call_function()
+                            elif (isinstance(self.options[int(selection) - 1], Menu)):
+                                sub_menu = self.options[int(selection) - 1]
+                                sub_menu.set_parent(self)
+                                sub_menu.show()
+                        else:
+                            if(self.parent != None):
+                                self.parent.set_previous_menu(self)
+                                self.parent.show()
+                        break
                     else:
-                        if (self.parent != None):
-                            self.parent.set_previous_menu(self)
-                            self.parent.show()
-                    break
-                else:
-                    register_error("Index not in range")
+                        register_error("Index not in range")
 
-        elif (self.input_each):
-            selection = {}
-            if(isinstance(self.options,list)):
-                for option in self.options:
-                    parameter_value = get_input(str(option) + " >> ")
-                    selection[option] = parameter_value
-            elif(isinstance(self.options,dict)):
-                for key in self.options:
-                    parameter_value = get_input(format = key + " >> ",
-                                                return_type=self.options[key][0],
-                                                valid_options=self.options[key][1:])
-                    selection[key] = parameter_value
+                else:
+                    register_error("Entered must be int.")
+
+        elif(self.input_each):
+            selection = []
+            for option in self.options:
+                parameter_value = get_input(str(option)+" >> ")
+                selection.append(parameter_value)
 
         # if there aren't any option it means user must input a string
         else:
@@ -192,32 +187,36 @@ class Menu:
         self.returned_value = selection
         return selection
 
+
+
     def show(self):
         # if(self.previous_menu != None) and (self != self.previous_menu):
         #     del(self.previous_menu)
         clear()
-        if (self.title != None):
-            print("/// {}".format(self.title))
+        if(self.title != None):
+            print ("/// %s " % self.title)
         if (self.subtitle != None):
-            print("///{}".format(self.subtitle))
+            print ("///%s" % self.subtitle)
         print
         if (self.text != None):
-            print(self.text)
+            print (self.text)
 
-        if (self.options.__len__() > 0 and (not self.input_each)):
+        # print "Parent:",self.parent
+
+
+        if(self.options.__len__()!=0 and (not self.input_each)):
             for option_index in range(len(self.options)):
                 if isinstance(self.options[option_index], Menu_Function):
-                    print("{}. {}".format(str(option_index + 1), self.options[option_index].title))
-                elif isinstance(self.options[option_index], Menu):
-                    print("{}. {}".format(str(option_index + 1), self.options[option_index].title))
+                    print ("%s. %s" % (str(option_index + 1), self.options[option_index].title))
+                elif isinstance(self.options[option_index],Menu):
+                    print ("%s. %s"%(str(option_index+1),self.options[option_index].title))
                 else:
-                    print("{}. {}".format(str(option_index + 1), self.options[option_index]))
+                    print ("%s. %s"%(str(option_index+1),self.options[option_index]))
             if (self.back):
-                print("0. Back")
+                print ("0. Back")
 
         selected_option = self.get_selection()
         return selected_option
-
 
 class Directory_Manager:
     class File:

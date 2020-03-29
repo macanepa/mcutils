@@ -7,29 +7,37 @@ __version__ = '0.0.6'
 
 """Main module."""
 
-from .logger import Log_Manager
+from .logger import *
 from .input_validation import input_validation
+from .json_manager import *
+from .print_manager import *
+from datetime import datetime
 
 Log = Log_Manager(developer_mode=True)
 
-def exit_application(text=None):
+def exit_application(text=None, enter_quit=False):
     if (text != None):
-        print(text)
+        # print(text)
+        mcprint(text=text, color=Color.YELLOW)
+
     Log.log("Exiting Application Code:0")
+    if enter_quit:
+        get_input(text="Press Enter to exit...")
     exit(0)
 
 def register_error(error_string, print_error=False):
     message = "Error Encountered <{}>".format(error_string)
     if (print_error == True):
-        print(message)
-    Log.log(message)
+        mcprint(text=message, color=Color.RED)
+    Log.log(text=message, is_error=True)
 
 
 # TODO: Implement parameters support for validation_function
-def get_input(format=">> ", text=None, can_exit=True, exit_input="exit", valid_options=[], return_type=str, validation_function=None):
+def get_input(format=">> ", text=None, can_exit=True, exit_input="exit", valid_options=[], return_type=str, validation_function=None, color=None):
 
     if (text != None):
-        print(text)
+        mcprint(text=text, color=color)
+
     while True:
         user_input = input(format)
 
@@ -57,7 +65,6 @@ def get_input(format=">> ", text=None, can_exit=True, exit_input="exit", valid_o
 
     return user_input
 
-
 def clear(n=3):
     print("\n" * n)
 
@@ -71,21 +78,21 @@ class Credits:
 
     def print_credits(self):
         clear(100)
-        print(">> Credits <<")
+        mcprint(">> Credits <<")
         if (self.company_name != ""):
-            print("Company: {}".format(self.company_name))
+            mcprint("Company: {}".format(self.company_name))
         if (self.team_name != ""):
-            print("Developed by {}".format(self.team_name))
+            mcprint("Developed by {}".format(self.team_name))
         if (len(self.authors) != 0):
-            print("\nAuthors:")
+            mcprint("\nAuthors:")
             for author in self.authors:
-                print("\t-{}".format(author))
+                mcprint("\t-{}".format(author))
         print
         if (self.email_address != ""):
-            print("Email: {}".format(self.email_address))
+            mcprint("Email: {}".format(self.email_address))
         if (self.github_account != ""):
-            print("GitHub: {}".format(self.github_account))
-        input("\nPress Enter to Continue...")
+            mcprint("GitHub: {}".format(self.github_account))
+        get_input(text="\nPress Enter to Continue...")
 
 class Menu_Function:
     def __init__(self,title=None,function=None,*args):
@@ -95,10 +102,10 @@ class Menu_Function:
         self.returned_value = None
 
     def print_function_info(self):
-        print ("Function: %s" % self.function)
+        mcprint ("Function: %s" % self.function)
 
         for parameter in self.args:
-            print (parameter)
+            mcprint (parameter)
 
     def get_unassigned_params(self):
         unassigned_parameters_list = []
@@ -109,7 +116,7 @@ class Menu_Function:
         return unassigned_parameters_list
 
     def get_args(self):
-        print (self.args)
+        mcprint (self.args)
         return self.args
 
     def call_function(self):
@@ -194,12 +201,12 @@ class Menu:
         #     del(self.previous_menu)
         clear()
         if(self.title != None):
-            print ("/// %s " % self.title)
+            mcprint ("/// %s " % self.title)
         if (self.subtitle != None):
-            print ("///%s" % self.subtitle)
+            mcprint ("///%s" % self.subtitle)
         print
         if (self.text != None):
-            print (self.text)
+            mcprint (self.text)
 
         # print "Parent:",self.parent
 
@@ -213,29 +220,30 @@ class Menu:
                 else:
                     print ("%s. %s"%(str(option_index+1),self.options[option_index]))
             if (self.back):
-                print ("0. Back")
+                mcprint ("0. Back")
 
         selected_option = self.get_selection()
         return selected_option
 
 class Directory_Manager:
     class File:
-        def __init__(self, path, name, extension, size):
+        def __init__(self, path, name, extension, size, created_at):
             self.path = path
             self.name = name
             self.extension = extension
             self.size = size
+            self.created_at = created_at
 
         def print_info(self):
-            print("Name:", self.name)
-            print("Path:", self.path)
-            print("Extension:", self.extension)
-            print("Size:", self.size)
+            mcprint("Name: {}".format(self.name))
+            mcprint("Path: {}".format(self.path))
+            mcprint("Extension: {}".format(self.extension))
+            mcprint("Size: {}".format(self.size))
             print
 
         # Modify delete function
         def delete_file(self):
-            print("Deleting File <{}>".format(self.path))
+            mcprint("Deleting File <{}>".format(self.path), color=Color.RED)
             import os
             os.remove(self.path)
 
@@ -262,7 +270,8 @@ class Directory_Manager:
             else:
                 file_name = file_dir.rsplit('\\', 1)[-1]
 
-            file = self.File(file_dir, file_name, file_name.rsplit('.', 1)[-1], os.path.getsize(file_dir))
+            created_at = datetime.fromtimestamp(os.path.getctime(file_dir)).strftime('%Y-%m-%d %H:%M:%S')
+            file = self.File(file_dir, file_name, file_name.rsplit('.', 1)[-1], os.path.getsize(file_dir), created_at)
             self.files.append(file)
 
         for directory in self.directories:
@@ -290,15 +299,18 @@ class Directory_Manager:
 
     def create_directory(self, directory):
         import os
-        os.makedirs(directory)
+        try:
+            os.makedirs(directory)
+        except:
+            register_error(error_string="Couldn't create the directory '{}'".format(directory))
 
     def open_file(self, file):
         import platform, os, subprocess
         current_os = platform.system()
 
-        if(isinstance(file,self.File)):
+        if(isinstance(file, self.File)):
             path = file.path
-        elif(isinstance(file,str)):
+        elif(isinstance(file, str)):
             path = file
 
         if (os.path.isfile(path)):
@@ -307,7 +319,7 @@ class Directory_Manager:
 
             if (current_os == 'Linux'):
                 subprocess.call(('xdg-open', path))
-            elif (current_os == 'Widows'):
+            elif (current_os == 'Windows'):
                 os.startfile(path)
             elif (current_os == "Darwin"):
                 subprocess.call(('open', path))

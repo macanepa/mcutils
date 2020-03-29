@@ -7,8 +7,8 @@ from setuptools import setup, find_packages
 with open('README.rst') as readme_file:
     readme = readme_file.read()
 
-with open('HISTORY.rst') as history_file:
-    history = history_file.read()
+# with open('HISTORY.rst') as history_file:
+#     history = history_file.read()
 
 requirements = ['Click>=7.0', ]
 
@@ -39,7 +39,7 @@ setup(
     },
     install_requires=requirements,
     license="GNU General Public License v3",
-    long_description=readme + '\n\n' + history,
+    long_description=readme, #+ '\n\n' + history,
     include_package_data=True,
     keywords='mcutils',
     name='mcutils',
@@ -48,6 +48,6 @@ setup(
     test_suite='tests',
     tests_require=test_requirements,
     url='https://github.com/macanepa/mcutils',
-    version='0.0.6',
+    version='0.0.7',
     zip_safe=False,
 )

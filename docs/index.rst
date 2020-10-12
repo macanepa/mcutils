@@ -5,6 +5,8 @@ Welcome to mcutils's documentation!
    :maxdepth: 2
    :caption: Contents:
 
+    modules
+
    readme
    installation
    usage

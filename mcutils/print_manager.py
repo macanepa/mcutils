@@ -25,11 +25,11 @@ class Color:
     RESET = '\033[0m'
 
 
-def mcprint(text="", format_="", color=None):
+def mcprint(text='', format_='', color=None, end='\n'):
     if not ColorSettings.is_dev:
         colorama.init(convert=True)
 
-    text = "{}{}".format(format_, text)
+    text = '{}{}'.format(format_, text)
     if color and ColorSettings.print_color:
         text = "{}{}{}".format(color, text, Color.RESET)
-    print(text)
+    print(text, end=end)

@@ -1,5 +1,6 @@
 import mcutils as mc
-
+mc.activate_mc_logger()
+mc.ColorSettings.is_dev = True
 """
 Automatic testing for mcutils
 """
@@ -11,10 +12,10 @@ def menu_testing():
         print(num)
         return num
 
-    credits_ = mc.Credits(authors=['Matías Cánepa'],
-                          company_name='ALM',
-                          github_account='macanepa',
-                          github_repo='https://github.com/macanepa/logistics-solver')
+    credits_ = mc.About(authors=['Matías Cánepa'],
+                        company_name='ALM',
+                        github_account='macanepa',
+                        github_repo='https://github.com/macanepa/logistics-solver')
 
     mf_credits = mc.MenuFunction(title='Credits', function=credits_.print_credits)
     mf_sqrt = mc.MenuFunction(title='SQRT', function=exp, exp_=4, num=3)
@@ -31,12 +32,12 @@ def validation():
                color=mc.Color.LIGHTGREEN)
 
 
-mc.ColorSettings.is_dev = True
+mc.ColorSettings.is_dev = False
 mc.ColorSettings.print_color = True
 
 
 def menu_select_options():
-    mc.ColorSettings.is_dev = True
+    mc.ColorSettings.is_dev = False
     mc.ColorSettings.print_color = True
     #  options = ["Animal", "Wiweño", "Shalashaska Ocelot"]
     options_classy = {"Animal": [str, '<10', '>3'],
@@ -51,4 +52,6 @@ def menu_select_options():
     print(mc_main.function_returned_value)
 
 
+mc.mcprint(text='text', color=mc.Color.RED)
+menu_testing()
 menu_select_options()

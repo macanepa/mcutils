@@ -46,7 +46,20 @@ def clear(n=3):
 
 
 def date_generator(include_time=False, year=None, month=None, day=None, hour=None, minute=None, second=None):
+    """Generate a datetime object defined by the user
 
+    This function will generate a datetime object. For each attribute not defined,
+    the user must fill it in. If the user leaves a blank attribute, the current date & time
+    will be used instead. The datetime can include the time if include_time is set to True
+
+    Args:
+        include_time (bool): If True, the user will be required to input hour, minute and second
+        year (int): year
+        month (int): month, must be in range [1, 12]
+        day (int): day, must be in range of the corresponding month
+        hour (int): hour, must be in range [0, 23]
+        second (int): second, must be in range [0, 59]
+    """
     if not year:
         while True:
             try:

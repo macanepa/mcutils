@@ -2,11 +2,19 @@ import colorama
 
 
 class ColorSettings:
+    """Settings for color printing
+
+    Attributes:
+        is_dev (bool): If developing on IDE, this must be True, otherwise False.
+        print_color (bool): For printing colors making use of mcutils print_color must be set to True
+    """
+
     is_dev = False
     print_color = True
 
 
 class Color:
+    """All available colors defined by mcutils"""
     BLACK = '\033[30m'
     RED = '\033[31m'
     GREEN = '\033[32m'
@@ -26,6 +34,14 @@ class Color:
 
 
 def mcprint(text='', format_='', color=None, end='\n'):
+    """print to stdout making use of color formatting options
+
+    Args:
+        text (str): Text to be displayed on stdout
+        format_ (str): Will add this string at the beginning of the text
+        color (Color): Color used for displaying the text
+        end (str): Overwrites end arguments of the print() statement
+    """
     if not ColorSettings.is_dev:
         colorama.init(convert=True)
 

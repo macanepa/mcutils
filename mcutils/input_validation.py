@@ -2,7 +2,13 @@ from .print_manager import mcprint, Color
 import logging
 
 
-def exit_application(text=None, enter_quit=False):
+def exit_application(text: str = None, enter_quit: bool =False):
+    """Exit application
+
+    Args:
+        text (str): Text to display before exiting
+        enter_quit (bool): If true, user must press enter before exiting
+    """
     if text:
         mcprint(text=text, color=Color.YELLOW)
     logging.info('Exiting Application Code:0')
@@ -112,8 +118,22 @@ def input_validation(user_input, return_type, valid_options):
     return True
 
 
-def get_input(format_='>> ', text=None, can_exit=True, exit_input='exit', valid_options=None, return_type=str,
-              validation_function=None, color=None):
+def get_input(format_: str = '>> ', text: str = None, can_exit: bool = True, exit_input: str= 'exit',
+              valid_options: list = None, return_type: type = str,
+              validation_function=None, color: Color = None):
+    """
+    Require the user to input a value
+
+    Args:
+        format_ (str): Will add this string at the beginning of the text
+        text (str): Text to be displayed before input
+        can_exit (bool): If true, when user types the exit_input command, the application will exit
+        exit_input (str): Special string, when user inputs this command, the application will exit
+        valid_options (list): If the input of the user is not in valid_options, the menu will ask for it again
+        return_type (type): Indicates the required return type
+        validation_function (function): Function used to validate if the input is correct
+        color (Color): Color used for displaying the text
+    """
     if text:
         mcprint(text=text, color=color)
 

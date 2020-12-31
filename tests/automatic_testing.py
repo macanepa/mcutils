@@ -73,9 +73,23 @@ def function():
                             input_each=True)
     mc_input_each.show()
     # logging.info(f'Input was {mc_input_each.returned_value}')
-mc.mcprint(text='text', color=mc.Color.RED)
-menu_testing()
-menu_select_options()
-function()
+# mc.mcprint(text='text', color=mc.Color.RED)
+# menu_testing()
+# menu_select_options()
+# function()
 
-mc.date_generator(True)
+# mc.date_generator(True)
+
+import mcutils as mc
+def foo(n):
+    return n**2
+mf_foo = mc.MenuFunction(title='do foo', function=foo, n=4)
+mc_submenu = mc.Menu(title='Submenu',
+                     text='This is the submenu',
+                     options=[mf_foo])
+mc_menu = mc.Menu(title='Main Menu',
+                  subtitle='Subtitle',
+                  text='Please select one of the following options',
+                  options=[mc_submenu, 'Option 2', 'Option 3'])
+mc_menu.show()
+print(mc_submenu.function_returned_value)

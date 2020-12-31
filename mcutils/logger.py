@@ -109,6 +109,12 @@ def setup_logging(console_log_output, console_log_level, console_log_color, logf
 
 # Main function
 def activate_mc_logger(console_log_level: str = "error"):
+    """
+    Activates the logging instance of mcutils
+
+    Args:
+        console_log_level (str): Select the level of log to be displayed on stdout
+    """
     # Setup logging
     script_name = os.path.splitext(os.path.basename(sys.argv[0]))[0]
     if (not setup_logging(console_log_output="stdout", console_log_level=console_log_level, console_log_color=True,

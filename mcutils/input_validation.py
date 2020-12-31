@@ -1,6 +1,14 @@
 from .print_manager import mcprint, Color
-from .utilities import exit_application
 import logging
+
+
+def exit_application(text=None, enter_quit=False):
+    if text:
+        mcprint(text=text, color=Color.YELLOW)
+    logging.info('Exiting Application Code:0')
+    if enter_quit:
+        get_input('Press Enter to exit...')
+    exit(0)
 
 
 def print_error(operators_list=None, contains_list=None, return_type=None):

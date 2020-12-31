@@ -77,3 +77,5 @@ mc.mcprint(text='text', color=mc.Color.RED)
 menu_testing()
 menu_select_options()
 function()
+
+mc.date_generator(True)

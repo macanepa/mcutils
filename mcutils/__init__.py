@@ -10,7 +10,7 @@ from .logger import *
 
 __author__ = """Matias Canepa Gonzalez"""
 __email__ = 'macanepa@miuandes.cl'
-__version__ = '1.1.0'
+__version__ = '1.1.1'
 
 """Main module."""
 

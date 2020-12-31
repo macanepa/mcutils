@@ -1,6 +1,8 @@
 import mcutils as mc
-mc.activate_mc_logger()
+import logging
+mc.activate_mc_logger(console_log_level='info')
 mc.ColorSettings.is_dev = True
+
 """
 Automatic testing for mcutils
 """
@@ -37,7 +39,7 @@ mc.ColorSettings.print_color = True
 
 
 def menu_select_options():
-    mc.ColorSettings.is_dev = False
+    mc.ColorSettings.is_dev = True
     mc.ColorSettings.print_color = True
     #  options = ["Animal", "Wiweño", "Shalashaska Ocelot"]
     options_classy = {"Animal": [str, '<10', '>3'],
@@ -51,7 +53,26 @@ def menu_select_options():
     print(mc_main.returned_value)
     print(mc_main.function_returned_value)
 
+def function():
+    def return_name(n):
+        name = mc.get_input(text=f'This is just the param: {n}')
+        return name
 
+    mf_return_name = mc.MenuFunction(title='Return Name', function=return_name, n=2)
+    mc_menu = mc.Menu(title='Function Testing',
+                      subtitle='Select an option from below',
+                      options=[mf_return_name])
+
+    # mc_menu.show()
+    print(f'function returner value: {mc_menu.function_returned_value}')
+    print(f'menu returned value {mc_menu.returned_value}')
+
+    mc_input_each = mc.Menu(title='Input Each',
+                            options={'Name': [str, '>5']},
+                            input_each=True)
+    mc_input_each.show()
+    # logging.info(f'Input was {mc_input_each.returned_value}')
 mc.mcprint(text='text', color=mc.Color.RED)
 menu_testing()
 menu_select_options()
+function()

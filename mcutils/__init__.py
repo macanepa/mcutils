@@ -13,3 +13,5 @@ __email__ = 'macanepa@miuandes.cl'
 __version__ = '0.1.2'
 
 """Main module."""
+
+logger.activate_mc_logger()

@@ -27,6 +27,8 @@ class DirectoryManager:
             os.remove(self.path)
 
     def __init__(self, directories=None):
+        if not directories:
+            directories = [os.getcwd()]
         self.directories = directories
         self.files = []
         self.selected_files = []
@@ -45,12 +47,12 @@ class DirectoryManager:
         def create_file(directory_name, new_file_name=None):
 
             file_dir = directory_name
-            if new_file_name is not None:
+            if new_file_name:
                 file_dir = os.path.join(directory_name, new_file_name)
             else:
                 new_file_name = file_dir.rsplit('\\', 1)[-1]
 
-            created_at = datetime.datetime.fromtimestamp(os.path.getctime(file_dir)).strftime('%Y-%m-%d %H:%M:%S')
+            created_at = datetime.fromtimestamp(os.path.getctime(file_dir)).strftime('%Y-%m-%d %H:%M:%S')
             file = self.File(file_dir, new_file_name, new_file_name.rsplit('.', 1)[-1],
                              os.path.getsize(file_dir), created_at)
             self.files.append(file)
@@ -80,7 +82,6 @@ class DirectoryManager:
 
     @staticmethod
     def create_directory(directory):
-        import os
         try:
             os.makedirs(directory)
         except IsADirectoryError:
@@ -88,7 +89,6 @@ class DirectoryManager:
 
     def open_file(self, file):
         import platform
-        import os
         import subprocess
         current_os = platform.system()
 
@@ -123,7 +123,7 @@ class DirectoryManager:
                 files = list(arg)
             elif isinstance(arg, str):
                 files = list(filter(lambda x: arg in x.name, self.files))
-            if files is not None:
+            if files:
                 self.selected_files += files
         return self.selected_files
 

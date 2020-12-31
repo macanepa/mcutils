@@ -108,12 +108,12 @@ def setup_logging(console_log_output, console_log_level, console_log_color, logf
 
 
 # Main function
-def activate_mc_logger(console_log_level: str = "info"):
+def activate_mc_logger(console_log_level: str = "error"):
     # Setup logging
     script_name = os.path.splitext(os.path.basename(sys.argv[0]))[0]
     if (not setup_logging(console_log_output="stdout", console_log_level=console_log_level, console_log_color=True,
                           logfile_file=script_name + ".log", logfile_log_level="debug", logfile_log_color=False,
-                          log_line_template="%(color_on)s[%(created)d] [%(threadName)s] [%(levelname)-8s] %(message)s%(color_off)s")):
+                          log_line_template="%(color_on)s[%(asctime)-15s] [%(levelname)-8s] %(message)s%(color_off)s")):
         print("Failed to setup logging, aborting.")
         return 1
 

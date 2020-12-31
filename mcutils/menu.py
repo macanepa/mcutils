@@ -81,7 +81,7 @@ class Menu:
                                 sub_menu.set_parent(self)
                                 sub_menu.show()
                         else:
-                            if self.parent is not None:
+                            if self.parent:
                                 self.parent.set_previous_menu(self)
                                 self.parent.show()
                         break
@@ -89,7 +89,7 @@ class Menu:
                         logging.warning('Index not in range')
 
                 else:
-                    logging.warning('Entered must be int')
+                    logging.warning('Entered value must be int')
 
         elif self.input_each:
             selection = {}
@@ -120,12 +120,12 @@ class Menu:
         # if(self.previous_menu != None) and (self != self.previous_menu):
         #     del(self.previous_menu)
         clear()
-        if self.title is not None:
+        if self.title:
             mcprint('=== %s ' % self.title)
-        if self.subtitle is not None:
+        if self.subtitle:
             mcprint('- - %s' % self.subtitle)
         print()
-        if self.text is not None:
+        if self.text:
             mcprint(self.text)
 
         # print 'Parent:',self.parent

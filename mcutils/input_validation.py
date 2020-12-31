@@ -106,7 +106,7 @@ def input_validation(user_input, return_type, valid_options):
 
 def get_input(format_='>> ', text=None, can_exit=True, exit_input='exit', valid_options=None, return_type=str,
               validation_function=None, color=None):
-    if text is not None:
+    if text:
         mcprint(text=text, color=color)
 
     while True:
@@ -120,7 +120,7 @@ def get_input(format_='>> ', text=None, can_exit=True, exit_input='exit', valid_
                 logging.warning('Can\'t exit application now')
 
         # This is the build-in validations system
-        if validation_function is not None:
+        if validation_function:
             validation = validation_function.__call__(user_input)
 
         # This is the external validation system

@@ -30,24 +30,21 @@ Features
     * Title, Subtitle, Text
     * Options (list the different alternatives to choose from)
         * Submenus (Menu instance)
-        * Functions (Menu_Function instance [must pass the arguments as \*args])
-                * Retrieve Menu_Function returned value
+        * Functions (MenuFunction instance)
+                * Retrieve MenuFunction returned value
     * Each menu is an instance from the Menu Class
     * Allows to return to previous menus (parent menu)
     * Controlled user input
-* Error Handler
+* Error handler with input validation
 * Directory Manager
     * List files in directory
     * Filter through different file extensions
     * Open files with default application (cross-platform support)
     * Select Files
     * Delete Files
-* Basic Logger
-
-
-Future Features
----------------
-* Logger System
+* JSON Manager
+* Print Manager
+    * Color printing
 
 Supported Versions
 ------------------

@@ -61,9 +61,10 @@ def function():
     mf_return_name = mc.MenuFunction(title='Return Name', function=return_name, n=2)
     mc_menu = mc.Menu(title='Function Testing',
                       subtitle='Select an option from below',
+                      text='This is the text',
                       options=[mf_return_name])
 
-    # mc_menu.show()
+    mc_menu.show()
     print(f'function returner value: {mc_menu.function_returned_value}')
     print(f'menu returned value {mc_menu.returned_value}')
 

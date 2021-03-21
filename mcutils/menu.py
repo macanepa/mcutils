@@ -187,7 +187,6 @@ class Menu:
         elif self.input_each:
             selection = {}
             for option in self.options:
-                print(option)
                 if isinstance(self.options, dict):
                     filter_criteria = self.options[option]
                     return_type = int

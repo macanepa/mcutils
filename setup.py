@@ -10,7 +10,7 @@ with open('README.rst') as readme_file:
 # with open('HISTORY.rst') as history_file:
 #     history = history_file.read()
 
-requirements = ['Click>=7.0', ]
+requirements = ['Click>=7.0', 'colorama>=0.4.3']
 
 setup_requirements = ['pytest-runner', ]
 
@@ -48,6 +48,6 @@ setup(
     test_suite='tests',
     tests_require=test_requirements,
     url='https://github.com/macanepa/mcutils',
-    version='1.1.1',
+    version='1.1.2',
     zip_safe=False,
 )

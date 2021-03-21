@@ -49,3 +49,13 @@ def mcprint(text='', format_='', color=None, end='\n'):
     if color and ColorSettings.print_color:
         text = "{}{}{}".format(color, text, Color.RESET)
     print(text, end=end)
+
+
+def enable_color():
+    ColorSettings.print_color = True
+    colorama.init()
+
+
+def disable_color():
+    ColorSettings.print_color = False
+    colorama.deinit()

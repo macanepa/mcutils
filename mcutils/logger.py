@@ -22,6 +22,8 @@ import sys
 import logging
 
 
+Logger = None
+
 # Logging formatter supporting colored output
 class LogFormatter(logging.Formatter):
     COLOR_CODES = {
@@ -115,6 +117,7 @@ def activate_mc_logger(console_log_level: str = "error"):
     Args:
         console_log_level (str): Select the level of log to be displayed on stdout
     """
+
     # Setup logging
     script_name = os.path.splitext(os.path.basename(sys.argv[0]))[0]
     if (not setup_logging(console_log_output="stdout", console_log_level=console_log_level, console_log_color=True,
@@ -122,6 +125,7 @@ def activate_mc_logger(console_log_level: str = "error"):
                           log_line_template="%(color_on)s[%(asctime)-15s] [%(levelname)-8s] %(message)s%(color_off)s")):
         print("Failed to setup logging, aborting.")
         return 1
+    enable_mc_logger()
 
     """
     # Log some messages
@@ -131,3 +135,15 @@ def activate_mc_logger(console_log_level: str = "error"):
     logging.error("Error message")
     logging.critical("Critical message")
     """
+
+def disable_mc_logger():
+    """
+    Disables the logging instance of mcutils
+    """
+    logging.getLogger().disabled = True
+
+def enable_mc_logger():
+    """
+    Enables the logging instance of mcutils
+    """
+    logging.getLogger().disabled = False

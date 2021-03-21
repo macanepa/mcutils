@@ -14,4 +14,6 @@ __version__ = '1.1.1'
 
 """Main module."""
 
-logger.activate_mc_logger()
+
+disable_mc_logger()
+enable_color()

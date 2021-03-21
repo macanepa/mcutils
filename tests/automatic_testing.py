@@ -73,10 +73,10 @@ def function():
                             input_each=True)
     mc_input_each.show()
     # logging.info(f'Input was {mc_input_each.returned_value}')
-# mc.mcprint(text='text', color=mc.Color.RED)
-# menu_testing()
-# menu_select_options()
-# function()
+mc.mcprint(text='text', color=mc.Color.RED)
+menu_testing()
+menu_select_options()
+function()
 
 # mc.date_generator(True)
 
